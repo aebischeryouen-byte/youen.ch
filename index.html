@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Youen Aebischer · test build</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:Bodoni;src:url(assets/fonts/bodoni-moda-latin-opsz-normal.woff2) format("woff2");font-display:swap}
+@font-face{font-family:Bodoni;font-style:italic;src:url(assets/fonts/bodoni-moda-latin-opsz-italic.woff2) format("woff2");font-display:swap}
+@font-face{font-family:Mont;font-weight:400;src:url(assets/fonts/montserrat-latin-400-normal.woff2) format("woff2");font-display:swap}
+@font-face{font-family:Mont;font-weight:500;src:url(assets/fonts/montserrat-latin-500-normal.woff2) format("woff2");font-display:swap}
+:root{--bg:#0c0c0e;--card:#141417;--ink:#f1ece2;--mut:#9a958c;--gold:#cbb48a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 Mont,system-ui,sans-serif}
+.note{background:#2a2418;color:var(--gold);font-size:13px;text-align:center;padding:8px 16px}
+header,main,footer{max-width:1100px;margin:0 auto;padding:0 24px}
+header{padding-top:9vh;padding-bottom:6vh}
+h1{font:400 clamp(48px,9vw,104px)/1 Bodoni,serif;margin:0}
+h1 i{font-style:italic}
+.role{margin-top:22px;color:var(--mut);border-left:1px solid var(--gold);padding-left:14px}
+.role b{display:block;color:var(--ink);font-weight:500}
+h2{font:italic 400 36px/1.1 Bodoni,serif;margin:0 0 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px}
+.card{background:var(--card);border:1px solid #26262b;border-radius:3px;overflow:hidden}
+.view{position:relative;aspect-ratio:4/3;background:radial-gradient(circle at 50% 45%,#26262a,#101012)}
+.view img,.view canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.view canvas{cursor:grab;touch-action:pan-y}
+.view .msg{position:absolute;left:12px;bottom:10px;font-size:12px;color:var(--mut)}
+.tg{position:absolute;right:10px;top:10px;display:flex;gap:4px}
+.tg button{background:#0c0c0ecc;color:var(--ink);border:1px solid #3a3a40;font:500 12px Mont,sans-serif;padding:5px 10px;cursor:pointer}
+.tg button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+.tg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.txt{padding:16px 18px 20px}
+.txt h3{margin:0 0 6px;font-weight:500;font-size:17px}
+.txt p{margin:0;color:var(--mut);font-size:14px}
+footer{padding-top:8vh;padding-bottom:6vh;color:var(--mut);font-size:14px}
+footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="note">Test version of youen.ch. Content and photos are still being reviewed.</div>
+<header>
+  <h1>Youen <i>Aebischer</i></h1>
+  <div class="role"><b>Electronics Technician EFZ</b>Tafers, Switzerland</div>
+</header>
+<main>
+  <h2>Projects</h2>
+  <div class="grid" id="grid"></div>
+</main>
+<footer>Contact: <a href="mailto:mail@youen.ch">mail@youen.ch</a></footer>
+<script src="assets/js/three.bundle.js"></script>
+<script>
+const P=[
+ {id:'twist',t:'Twist V1 watch',p:'Electronic wristwatch with a titanium lattice case and an STM32 board.',img:'t_2',glb:'twist'},
+ {id:'mech',t:'Mechanical watch',p:'Assembled from individual parts, own case and dial.',img:'m_1',glb:'watch4'},
+ {id:'winder',t:'Watch winder',p:'Six rotating slots, designed, 3D printed and programmed.',img:'w_overview',glb:'winder'},
+ {id:'cal',t:'Perpetual calendar',p:'Lever-driven date mechanism, designed in CAD and 3D printed.',img:'c_1',glb:'cal'},
+ {id:'pin',t:'Pinfinity pinball',p:'Pinball machine with an ESP32-S3 controller and a 64×32 LED matrix.',img:'pb_fb',glb:'pin'}];
+const g=document.getElementById('grid');
+g.innerHTML=P.map(p=>`<article class="card" id="${p.id}"><div class="view"><img src="assets/img/${p.img}.webp" alt="${p.t}" loading="lazy">
+ <div class="tg"><button data-m="ph" aria-pressed="true">Photo</button><button data-m="3d" aria-pressed="false">3D</button></div><span class="msg"></span></div>
+ <div class="txt"><h3>${p.t}</h3><p>${p.p}</p></div></article>`).join('');
+const TH=TX.THREE,loader=new TX.GLTFLoader();loader.setMeshoptDecoder(TX.MeshoptDecoder);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function viewer(card,p){const v=card.querySelector('.view'),msg=v.querySelector('.msg');let rd,c;
+  try{c=document.createElement('canvas');v.insertBefore(c,v.querySelector('.tg'));rd=new TH.WebGLRenderer({canvas:c,antialias:true,alpha:true})}
+  catch(e){if(c)c.remove();msg.textContent='3D is not available on this device';return null}
+  rd.setPixelRatio(Math.min(devicePixelRatio,2));rd.toneMapping=TH.ACESFilmicToneMapping;
+  const sc=new TH.Scene();sc.environment=new TH.PMREMGenerator(rd).fromScene(new TX.RoomEnvironment(),.04).texture;
+  const key=new TH.DirectionalLight(0xfff2dc,2.2);key.position.set(1,2,1.5);sc.add(key);
+  const cam=new TH.PerspectiveCamera(30,4/3,1,20000),grp=new TH.Group();sc.add(grp);
+  let yaw=-.6,pitch=.45,drag=null,ready=false,last=0,dist=100,on=false;
+  msg.textContent='Loading 3D model…';
+  loader.load(`assets/models/${p.glb}.glb`,gl=>{const s=gl.scene,ctr=new TH.Vector3();
+      s.traverse(o=>{if(o.isMesh&&o.material&&o.material.name==='glass'){o.material.transparent=true;o.material.opacity=.15;o.material.depthWrite=false}});
+      const b=new TH.Box3().setFromObject(s);b.getCenter(ctr);s.position.sub(ctr);grp.add(s);
+      dist=b.getSize(new TH.Vector3()).length()/2/Math.sin(15*Math.PI/180)*1.05;ready=true;msg.textContent='Drag to rotate'},
+    undefined,()=>{msg.textContent='The model could not be loaded'});
+  const size=()=>{const w=v.clientWidth,h=v.clientHeight;rd.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()};size();addEventListener('resize',size);
+  c.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,yaw,pitch];c.setPointerCapture(e.pointerId)});
+  c.addEventListener('pointermove',e=>{if(!drag)return;yaw=drag[2]+(e.clientX-drag[0])*.01;pitch=Math.max(-1.2,Math.min(1.4,drag[3]+(e.clientY-drag[1])*.01))});
+  c.addEventListener('pointerup',()=>drag=null);c.addEventListener('pointercancel',()=>drag=null);
+  function loop(t){if(!on)return;requestAnimationFrame(loop);const dt=Math.min(.1,(t-last)/1000);last=t;if(!drag&&!reduce)yaw+=dt*.25;
+    cam.position.set(Math.sin(yaw)*Math.cos(pitch)*dist,Math.sin(pitch)*dist,Math.cos(yaw)*Math.cos(pitch)*dist);cam.lookAt(0,0,0);if(ready)rd.render(sc,cam)}
+  const show=x=>{c.style.display=x?'block':'none';if(x&&!on){on=true;last=performance.now();requestAnimationFrame(loop)}on=x};
+  show(true);return {show}}
+document.querySelectorAll('.card').forEach((card,i)=>{let vw=null;const img=card.querySelector('img'),msg=card.querySelector('.msg');
+  card.querySelectorAll('.tg button').forEach(btn=>btn.addEventListener('click',()=>{const three=btn.dataset.m==='3d';
+    card.querySelectorAll('.tg button').forEach(b=>b.setAttribute('aria-pressed',b===btn));
+    img.style.display=three?'none':'block';if(three&&!vw)vw=viewer(card,P[i]);else if(vw)vw.show(three)}))});
+</script>
+</body>
+</html>
