@@ -1,95 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>Youen Aebischer · test build</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<style>
-@font-face{font-family:Bodoni;src:url(assets/fonts/bodoni-moda-latin-opsz-normal.woff2) format("woff2");font-display:swap}
-@font-face{font-family:Bodoni;font-style:italic;src:url(assets/fonts/bodoni-moda-latin-opsz-italic.woff2) format("woff2");font-display:swap}
-@font-face{font-family:Mont;font-weight:400;src:url(assets/fonts/montserrat-latin-400-normal.woff2) format("woff2");font-display:swap}
-@font-face{font-family:Mont;font-weight:500;src:url(assets/fonts/montserrat-latin-500-normal.woff2) format("woff2");font-display:swap}
-:root{--bg:#0c0c0e;--card:#141417;--ink:#f1ece2;--mut:#9a958c;--gold:#cbb48a}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 Mont,system-ui,sans-serif}
-.note{background:#2a2418;color:var(--gold);font-size:13px;text-align:center;padding:8px 16px}
-header,main,footer{max-width:1100px;margin:0 auto;padding:0 24px}
-header{padding-top:9vh;padding-bottom:6vh}
-h1{font:400 clamp(48px,9vw,104px)/1 Bodoni,serif;margin:0}
-h1 i{font-style:italic}
-.role{margin-top:22px;color:var(--mut);border-left:1px solid var(--gold);padding-left:14px}
-.role b{display:block;color:var(--ink);font-weight:500}
-h2{font:italic 400 36px/1.1 Bodoni,serif;margin:0 0 24px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px}
-.card{background:var(--card);border:1px solid #26262b;border-radius:3px;overflow:hidden}
-.view{position:relative;aspect-ratio:4/3;background:radial-gradient(circle at 50% 45%,#26262a,#101012)}
-.view img,.view canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.view canvas{cursor:grab;touch-action:pan-y}
-.view .msg{position:absolute;left:12px;bottom:10px;font-size:12px;color:var(--mut)}
-.tg{position:absolute;right:10px;top:10px;display:flex;gap:4px}
-.tg button{background:#0c0c0ecc;color:var(--ink);border:1px solid #3a3a40;font:500 12px Mont,sans-serif;padding:5px 10px;cursor:pointer}
-.tg button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
-.tg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.txt{padding:16px 18px 20px}
-.txt h3{margin:0 0 6px;font-weight:500;font-size:17px}
-.txt p{margin:0;color:var(--mut);font-size:14px}
-footer{padding-top:8vh;padding-bottom:6vh;color:var(--mut);font-size:14px}
-footer a{color:var(--gold)}
-</style>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0b"><title>Youen Aebischer · Electronics Technician EFZ</title>
+<meta name="description" content="Youen Aebischer, electronics technician EFZ from Switzerland. Embedded systems, PCB design, 3D printing and watchmaking projects, with interactive 3D models. Open to work abroad from autumn 2027.">
+<meta name="author" content="Youen Aebischer">
+<link rel="canonical" href="https://youen.ch/">
+<meta property="og:type" content="website"><meta property="og:url" content="https://youen.ch/"><meta property="og:site_name" content="youen.ch">
+<meta property="og:title" content="Youen Aebischer · Electronics Technician EFZ"><meta property="og:description" content="Embedded systems, PCB design, 3D printing and watchmaking projects, with interactive 3D models.">
+<meta property="og:image" content="https://youen.ch/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Youen Aebischer", "url": "https://youen.ch/", "jobTitle": "Electronics Technician EFZ", "email": "mailto:mail@youen.ch", "address": {"@type": "PostalAddress", "addressCountry": "CH"}, "image": "https://youen.ch/assets/img/me_portrait.webp"}</script>
+<link rel="stylesheet" href="assets/css/site.css?v=8b796dec">
 </head>
 <body>
-<div class="note">Test version of youen.ch. Content and photos are still being reviewed.</div>
-<header>
-  <h1>Youen <i>Aebischer</i></h1>
-  <div class="role"><b>Electronics Technician EFZ</b>Tafers, Switzerland</div>
-</header>
+<canvas id="gear"></canvas>
+<div id="cur"><b></b></div><div id="cur2"></div>
+<div id="prog"></div>
+<header><a class="lo" href="#home" data-go="home" aria-label="Youen Aebischer, home"><span data-logo></span><span class="sc">Y. Aebischer</span></a>
+ <nav class="sc" aria-label="Main"><a href="#home" data-go="home" class="on">Home</a><a href="#projects" data-go="projects">Projects</a><a href="#contact" data-go="contact">Contact</a></nav></header>
+<div id="wipe"><span id="wl"></span></div>
 <main>
-  <h2>Projects</h2>
-  <div class="grid" id="grid"></div>
+<!-- ================= HOME ================= -->
+<div class="view active" id="home">
+ <section class="hero" id="hero" data-v="e"><div class="spot" id="spot"></div>
+  <div class="tx" data-r>
+   <div class="sc gold mk"><span>Switzerland</span></div>
+   <h1><span class="mk"><span><i>Youen</i></span></span><span class="mk l2"><span style="--d:.12s">Aebischer</span></span></h1>
+   <div class="role rv" style="--d:.25s"><b>Electronics Technician EFZ</b><span>Swiss trade qualification · now vocational baccalaureate in Fribourg</span><a class="av" href="#contact" data-go="contact">Open to twelve months of work abroad from August or September 2027</a></div>
+   <div class="rv" style="--d:.3s"><div class="wel">Circuits, code and fine mechanics.</div><div class="tw" id="tw"></div></div>
+   <div class="hcta rv" style="--d:.38s"><button class="btn" data-go="projects">View projects</button><button class="btn ghost" data-go="contact">Get in touch</button></div>
+  </div>
+  <div class="stage st-d" id="stD"><div class="vw" id="hd3" aria-label="3D model of the Twist V1 wristwatch"><img class="fb" src="assets/img/t_2.webp" alt="Twist V1 electronic wristwatch" width="1000" height="800"></div><div class="mcap sc"><b>Twist V1</b> · custom electronic wristwatch</div></div>
+  <div class="cue sc">Scroll <i></i></div>
+ </section>
+ <div class="mq" id="mq" aria-hidden="true"><div class="ln" id="mq1"></div><div class="ln" id="mq2"></div></div>
+ <section class="s wrap" id="about">
+  <div class="k sc rv">I · About</div>
+  <div class="ab"><p class="scrub" id="scrub" data-r></p>
+   <aside class="me rv" data-r>
+    <figure class="pf"><img src="assets/img/me_portrait.webp" alt="Youen Aebischer sitting in front of a jet engine fan" width="620" height="760" loading="lazy"><figcaption>Happiest next to a big engine.</figcaption></figure>
+    <dl class="facts" id="facts"></dl>
+   </aside></div>
+ </section>
+ <section class="s wrap" id="skills">
+  <div class="k sc rv">II · Skills · <span id="pinHint">hover a pin</span></div><h2 class="h mk"><span>What I <i>do &amp; build</i></span></h2>
+  <div class="po"><svg class="chip rv" id="chip" viewBox="0 0 800 800" data-r role="img" aria-label="Skills shown as the pinout of a chip"></svg><div class="pp rv" data-r><div class="tabs" id="tabs"></div><div class="pd" id="pd"></div></div></div>
+ </section>
+ <section class="s wrap" id="path">
+  <div class="k sc rv">III · Path</div><h2 class="h mk"><span>Where I <i>come from</i></span></h2>
+  <div class="tdw rv" data-r><svg class="td" id="td" viewBox="0 0 1200 486" role="img" aria-label="Timeline from 2013 to 2028"></svg></div>
+  <div class="log" id="log"></div><div class="langs rv" id="langs"></div>
+ </section>
+ <section class="cta wrap" data-r><p class="rv">Here are a few of my favorite builds.</p><button class="btn rv" data-go="projects">See my projects</button></section>
+ <footer class="sc"><span>© <span class="yr"></span> Youen Aebischer</span><span class="ai">Website built with AI. I'm good at coding microcontrollers; for the graphics side, AI was at my side.</span><span class="fl"><a href="privacy.html">Privacy</a><a class="fm" href="#">E-Mail</a></span></footer>
+</div>
+<!-- ================= PROJECTS ================= -->
+<div class="view" id="projects">
+ <section class="wrap ph"><div class="k sc rv">The collection</div><h2 class="h mk"><span>My <i>Projects</i></span></h2><p class="intro rv" id="intro"></p><p class="mnote rv" id="mnote"></p></section>
+ <div id="hs"><div class="hpin"><div class="track" id="track"></div><div class="hbar"><span class="sc" style="color:var(--mut)">Scroll</span><div class="ln"><i id="hbi"></i></div><div class="cnt" id="hcnt">01<small>/ 05</small></div></div></div></div>
+ <section class="s wrap" id="bench"></section>
+ <section class="cta wrap"><p class="rv">Want to know more?</p><button class="btn rv" data-go="contact">Get in touch</button></section>
+ <footer class="sc"><span>© <span class="yr"></span> Youen Aebischer</span><span class="ai">Website built with AI. I'm good at coding microcontrollers; for the graphics side, AI was at my side.</span><span class="fl"><a href="privacy.html">Privacy</a><a class="fm" href="#">E-Mail</a></span></footer>
+</div>
+<!-- ================= CONTACT ================= -->
+<div class="view" id="contact">
+ <section class="s wrap" style="padding-top:22vh"><div class="k sc rv">Contact</div><h2 class="h mk"><span>Say <i>hello.</i></span></h2>
+  <div class="ct"><div class="rv"><p class="lead" id="lead"></p><div class="lk"><a id="lm" href="" data-c="lk">E-Mail<span>↗</span></a></div>
+</div>
+   <form id="form" class="rv" style="--d:.1s" novalidate>
+    <div class="f"><label for="fn">First name *</label><input id="fn" required autocomplete="given-name"></div><div class="f"><label for="ln2">Last name *</label><input id="ln2" required autocomplete="family-name"></div>
+    <div class="f"><label for="fe">E-Mail *</label><input id="fe" type="email" required autocomplete="email"></div><div class="f"><label for="fp">Phone number</label><input id="fp" type="tel" autocomplete="tel"></div>
+    <div class="f w"><label for="fc">Message *</label><textarea id="fc" rows="3" required></textarea></div>
+    <div class="sub"><small>Opens your e-mail app with the message ready to send. Nothing is stored on this website. <a href="privacy.html">Privacy</a></small><button class="btn" type="submit" id="sb">Send message</button></div></form></div>
+  <div class="cto"><figure class="pf wide rv"><img src="assets/img/me_engine.webp" alt="Youen Aebischer standing inside the intake of a Rolls-Royce RB211 jet engine" width="900" height="1200" loading="lazy"><figcaption>Inside a Rolls-Royce RB211, for scale.</figcaption></figure>
+   <p class="outro rv">Feel free to look around and reach out,<br><em>I'm always happy to connect!</em></p></div>
+ </section>
+ <footer class="sc"><span>© <span class="yr"></span> Youen Aebischer</span><span class="ai">Website built with AI. I'm good at coding microcontrollers; for the graphics side, AI was at my side.</span><span class="fl"><a href="privacy.html">Privacy</a><a class="fm" href="#">E-Mail</a></span></footer>
+</div>
 </main>
-<footer>Contact: <a href="mailto:mail@youen.ch">mail@youen.ch</a></footer>
-<script src="assets/js/three.bundle.js"></script>
-<script>
-const P=[
- {id:'twist',t:'Twist V1 watch',p:'Electronic wristwatch with a titanium lattice case and an STM32 board.',img:'t_2',glb:'twist'},
- {id:'mech',t:'Mechanical watch',p:'Assembled from individual parts, own case and dial.',img:'m_1',glb:'watch4'},
- {id:'winder',t:'Watch winder',p:'Six rotating slots, designed, 3D printed and programmed.',img:'w_overview',glb:'winder'},
- {id:'cal',t:'Perpetual calendar',p:'Lever-driven date mechanism, designed in CAD and 3D printed.',img:'c_1',glb:'cal'},
- {id:'pin',t:'Pinfinity pinball',p:'Pinball machine with an ESP32-S3 controller and a 64×32 LED matrix.',img:'pb_fb',glb:'pin'}];
-const g=document.getElementById('grid');
-g.innerHTML=P.map(p=>`<article class="card" id="${p.id}"><div class="view"><img src="assets/img/${p.img}.webp" alt="${p.t}" loading="lazy">
- <div class="tg"><button data-m="ph" aria-pressed="true">Photo</button><button data-m="3d" aria-pressed="false">3D</button></div><span class="msg"></span></div>
- <div class="txt"><h3>${p.t}</h3><p>${p.p}</p></div></article>`).join('');
-const TH=TX.THREE,loader=new TX.GLTFLoader();loader.setMeshoptDecoder(TX.MeshoptDecoder);
-const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function viewer(card,p){const v=card.querySelector('.view'),msg=v.querySelector('.msg');let rd,c;
-  try{c=document.createElement('canvas');v.insertBefore(c,v.querySelector('.tg'));rd=new TH.WebGLRenderer({canvas:c,antialias:true,alpha:true})}
-  catch(e){if(c)c.remove();msg.textContent='3D is not available on this device';return null}
-  rd.setPixelRatio(Math.min(devicePixelRatio,2));rd.toneMapping=TH.ACESFilmicToneMapping;
-  const sc=new TH.Scene();sc.environment=new TH.PMREMGenerator(rd).fromScene(new TX.RoomEnvironment(),.04).texture;
-  const key=new TH.DirectionalLight(0xfff2dc,2.2);key.position.set(1,2,1.5);sc.add(key);
-  const cam=new TH.PerspectiveCamera(30,4/3,1,20000),grp=new TH.Group();sc.add(grp);
-  let yaw=-.6,pitch=.45,drag=null,ready=false,last=0,dist=100,on=false;
-  msg.textContent='Loading 3D model…';
-  loader.load(`assets/models/${p.glb}.glb`,gl=>{const s=gl.scene,ctr=new TH.Vector3();
-      s.traverse(o=>{if(o.isMesh&&o.material&&o.material.name==='glass'){o.material.transparent=true;o.material.opacity=.15;o.material.depthWrite=false}});
-      const b=new TH.Box3().setFromObject(s);b.getCenter(ctr);s.position.sub(ctr);grp.add(s);
-      dist=b.getSize(new TH.Vector3()).length()/2/Math.sin(15*Math.PI/180)*1.05;ready=true;msg.textContent='Drag to rotate'},
-    undefined,()=>{msg.textContent='The model could not be loaded'});
-  const size=()=>{const w=v.clientWidth,h=v.clientHeight;rd.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()};size();addEventListener('resize',size);
-  c.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,yaw,pitch];c.setPointerCapture(e.pointerId)});
-  c.addEventListener('pointermove',e=>{if(!drag)return;yaw=drag[2]+(e.clientX-drag[0])*.01;pitch=Math.max(-1.2,Math.min(1.4,drag[3]+(e.clientY-drag[1])*.01))});
-  c.addEventListener('pointerup',()=>drag=null);c.addEventListener('pointercancel',()=>drag=null);
-  function loop(t){if(!on)return;requestAnimationFrame(loop);const dt=Math.min(.1,(t-last)/1000);last=t;if(!drag&&!reduce)yaw+=dt*.25;
-    cam.position.set(Math.sin(yaw)*Math.cos(pitch)*dist,Math.sin(pitch)*dist,Math.cos(yaw)*Math.cos(pitch)*dist);cam.lookAt(0,0,0);if(ready)rd.render(sc,cam)}
-  const show=x=>{c.style.display=x?'block':'none';if(x&&!on){on=true;last=performance.now();requestAnimationFrame(loop)}on=x};
-  show(true);return {show}}
-document.querySelectorAll('.card').forEach((card,i)=>{let vw=null;const img=card.querySelector('img'),msg=card.querySelector('.msg');
-  card.querySelectorAll('.tg button').forEach(btn=>btn.addEventListener('click',()=>{const three=btn.dataset.m==='3d';
-    card.querySelectorAll('.tg button').forEach(b=>b.setAttribute('aria-pressed',b===btn));
-    img.style.display=three?'none':'block';if(three&&!vw)vw=viewer(card,P[i]);else if(vw)vw.show(three)}))});
-</script>
-</body>
-</html>
+<noscript><div class="nojs"><h1>Youen Aebischer</h1><p>Electronics Technician EFZ from Switzerland. This site needs JavaScript for its 3D models. You can still write to <a href="mailto:mail@youen.ch">mail@youen.ch</a>.</p></div></noscript>
+<script src="assets/js/three.bundle.js?v=1"></script>
+<script src="assets/js/site.js?v=8b796dec"></script>
+</body></html>
