@@ -275,3 +275,7 @@ footer .ai{flex:1 1 320px;text-align:center;text-transform:none;letter-spacing:.
 
 /* contact: privacy link in the form note */
 .sub small a{color:var(--ch2,#cbb48a);text-decoration:underline;text-underline-offset:2px}
+
+/* links inside facts and timeline */
+.facts dd a,.log p a{color:var(--ch2,#cbb48a);text-decoration:underline;text-underline-offset:2px}
+.facts dd a:hover,.log p a:hover{color:var(--ink,#f1ece2)}
