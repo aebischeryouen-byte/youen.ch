@@ -401,6 +401,7 @@ function show(n){cur.classList.remove('big');$$('.view').forEach(v=>v.classList.
   $$('nav a').forEach(a=>{const on=a.dataset.go===n;a.classList.toggle('on',on);on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});sizeHS();arm(v);document.body.classList.toggle('ve',n==='home')}
 function go(n,push=true){if(busy||n===curV||!NAMES[n])return;busy=true;$('#wl').textContent=NAMES[n];const w=$('#wipe');w.classList.remove('out');void w.offsetWidth;w.classList.add('on');
  if(push)history.pushState(null,'',n==='home'?location.pathname+location.search:'#'+n);
+ if(push&&window.goatcounter&&goatcounter.count)goatcounter.count({path:n==='home'?'/':'/#'+n,title:TITLES[n]});
  setTimeout(()=>{show(n);
   setTimeout(()=>{w.classList.remove('on');w.classList.add('out');setTimeout(()=>{w.classList.remove('out');busy=false},750)},350)},750)}
 const fromHash=()=>{const n=location.hash.slice(1);return NAMES[n]?n:'home'};
