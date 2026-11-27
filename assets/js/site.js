@@ -339,7 +339,7 @@ const CAT=['#cbb48a','#d9a99c','#c9ced6','#c08a5a','#f3efe6','#8fa8c2'];
  svg.innerHTML=h+pins.join('');
  $('#tabs').innerHTML=S.map((s,i)=>`<button data-cat="${i}" style="--k:${CAT[i]}">${s.k}</button>`).join('');
  let cur=-1,auto=true;function show(i){if(i===cur)return;cur=i;const s=S[i];$('#pd').style.setProperty('--k',CAT[i]);
-  $('#pd').innerHTML=`<div class="kk sc">Group ${s.k} · ${s.chips.length} pins</div><h4>${s.t}</h4><p>${s.p}</p><div class="pl">${s.chips.map(c=>`<span>${c}</span>`).join('')}</div>`;
+  $('#pd').innerHTML=`<h4>${s.t}</h4><p>${s.p}</p><div class="pl">${s.chips.map(c=>`<span>${c}</span>`).join('')}</div>`;
   $$('#tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.cat===i));$$('.pin',svg).forEach(p=>p.classList.toggle('hi',+p.dataset.cat===i))}
  show(0);svg.addEventListener('pointerover',e=>{const p=e.target.closest('.pin');if(p){auto=false;show(+p.dataset.cat)}});
  $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b){auto=false;show(+b.dataset.cat)}});
@@ -441,18 +441,18 @@ function initG(){if(G)return;try{
  const gold=new TH.MeshStandardMaterial({color:0xa98b56,metalness:1,roughness:.4});
  const bronze=new TH.MeshStandardMaterial({color:0x4f4232,metalness:1,roughness:.5});
  const edge=new TH.LineBasicMaterial({color:0xe8d6ad,transparent:true,opacity:.06});
- function gearShape(teeth,pitch,holeR,lighten){const r1=pitch-.13,r2=pitch+.13,sh=new TH.Shape(),st=Math.PI*2/teeth;let first=true;
-  for(let t=0;t<teeth;t++)[[r1,0],[r2,.18],[r2,.45],[r1,.63]].forEach(([rr,o])=>{const a=t*st+o*st,x=Math.cos(a)*rr,y=Math.sin(a)*rr;if(first){sh.moveTo(x,y);first=false}else sh.lineTo(x,y)});
+ function gearShape(teeth,pitch,holeR,lighten){const r1=pitch-.16,r2=pitch+.13,sh=new TH.Shape(),st=Math.PI*2/teeth;let first=true;
+  for(let t=0;t<teeth;t++)[[r1,0],[r2,.16],[r2,.40],[r1,.56]].forEach(([rr,o])=>{const a=t*st+o*st,x=Math.cos(a)*rr,y=Math.sin(a)*rr;if(first){sh.moveTo(x,y);first=false}else sh.lineTo(x,y)});
   sh.closePath();const h=new TH.Path();h.absarc(0,0,holeR,0,Math.PI*2,true);sh.holes.push(h);
   if(lighten){for(let i=0;i<5;i++){const a=i/5*Math.PI*2,hh=new TH.Path();hh.absarc(Math.cos(a)*pitch*.6,Math.sin(a)*pitch*.6,pitch*.19,0,Math.PI*2,true);sh.holes.push(hh)}}return sh}
- function makeGear(teeth,depth,mat,em){const pitch=teeth*.1,geo=new TH.ExtrudeGeometry(gearShape(teeth,pitch,pitch*.22,teeth>=14),{depth,bevelEnabled:true,bevelThickness:.04,bevelSize:.035,bevelSegments:2,curveSegments:10});
+ function makeGear(teeth,depth,mat,em){const pitch=teeth*.1,geo=new TH.ExtrudeGeometry(gearShape(teeth,pitch,pitch*.22,teeth>=14),{depth,bevelEnabled:true,bevelThickness:.04,bevelSize:.01,bevelSegments:2,curveSegments:10});
   geo.translate(0,0,-depth/2);const g=new TH.Group();g.add(new TH.Mesh(geo,mat));g.add(new TH.LineSegments(new TH.EdgesGeometry(geo,28),em||edge));return g}
- const clusters=[],P=t=>t*.1;
+ const clusters=[],P=t=>t*.1,TC=.28,ph=(na,ta,phi,nb)=>{const ua=(phi-ta)/(Math.PI*2/na)-TC;return phi+Math.PI-(.5-ua+TC)*Math.PI*2/nb};
  function cluster(x,y,z,flip,s0){const grp=new TH.Group(),gears=[],mg=gold.clone(),mb=bronze.clone(),me=edge.clone();mg.transparent=mb.transparent=true;
   const add=(teeth,px,py,pz,dir,depth,mat)=>{const g=makeGear(teeth,depth,mat===gold?mg:mb,me);g.position.set(px,py,pz);grp.add(g);gears.push({g,s:3.2/teeth*dir});return g};
-  add(24,0,0,0,1,.5,gold);const a2=.6,d2=P(24)+P(14),b=add(14,Math.cos(a2)*d2,Math.sin(a2)*d2,0,-1,.5,gold);b.rotation.z=Math.PI/14;
-  const a3=-.7,d3=P(14)+P(10);add(10,b.position.x+Math.cos(a3)*d3,b.position.y+Math.sin(a3)*d3,0,1,.5,gold).rotation.z=Math.PI/10;
-  const a4=3.5,d4=P(24)+P(8);add(8,Math.cos(a4)*d4,Math.sin(a4)*d4,0,-1,.4,gold);add(32,-1.2,-1.6,-1.7,-1,.3,bronze);
+  add(24,0,0,0,1,.5,gold);const a2=.6,d2=P(24)+P(14),b=add(14,Math.cos(a2)*d2,Math.sin(a2)*d2,0,-1,.5,gold);b.rotation.z=ph(24,0,a2,14);
+  const a3=-.7,d3=P(14)+P(10);add(10,b.position.x+Math.cos(a3)*d3,b.position.y+Math.sin(a3)*d3,0,1,.5,gold).rotation.z=ph(14,b.rotation.z,a3,10);
+  const a4=3.5,d4=P(24)+P(8);add(8,Math.cos(a4)*d4,Math.sin(a4)*d4,0,-1,.4,gold).rotation.z=ph(24,0,a4,8);add(32,-1.2,-1.6,-1.7,-1,.3,bronze);
   grp.position.set(x,y,z);const ry=-.35*flip;grp.rotation.set(.25*flip,ry,0);grp.scale.setScalar(s0);sc.add(grp);clusters.push({grp,gears,ry,ph:Math.random()*6,mg,mb,me})}
  // zoom-in like the green version: clusters along the flight path, kept to the sides so they pass by the text
  const hw12=Math.tan(22.5*Math.PI/180)*12*ASP,SX=PORT?hw12+.8:hw12*.92,SC=PORT?.8:1.05,STEP=12;
