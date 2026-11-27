@@ -392,7 +392,8 @@ const W3F_KEY='72dd5003-d74b-4fc3-a6fe-2042b49be8bf';
  const data={access_key:W3F_KEY,subject:`Contact via youen.ch: ${v('fn')} ${v('ln2')}`,from_name:'youen.ch',name:`${v('fn')} ${v('ln2')}`,email:v('fe'),phone:v('fp')||'-',message:v('fc'),botcheck:''};
  fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)})
   .then(r=>r.json().catch(()=>({})).then(j=>{if(!r.ok||!j.success)throw new Error(j.message||r.status)}))
-  .then(()=>{f.classList.add('sent');sb.textContent='Sent';say(`Thank you, ${v('fn').replace(/[<>&"]/g,'')}. Your message has been sent, I will reply to ${v('fe').replace(/[<>&"]/g,'')}.`,'ok')})
+  .then(()=>{f.classList.add('sent');sb.textContent='Sent';say(`Thank you, ${v('fn').replace(/[<>&"]/g,'')}. Your message has been sent. I will reply to <strong>${v('fe').replace(/[<>&"]/g,'')}</strong>. <a href="#" id="fagain">Wrong address? Correct it and send again.</a>`,'ok');
+   $('#fagain').addEventListener('click',ev=>{ev.preventDefault();f.classList.remove('sent');sb.disabled=false;sb.textContent='Send message';say('');$('#fe').focus();$('#fe').select()})})
   .catch(()=>{sb.disabled=false;sb.textContent='Send message';say(`Sending did not work. Please try again later or write to <a href="${C.mail}">mail@youen.ch</a> directly.`,'err')})});
 /* ---------- reveals ---------- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const t=e.target;t.classList.add('in');io.unobserve(t);

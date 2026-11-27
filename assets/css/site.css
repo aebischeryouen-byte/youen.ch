@@ -286,3 +286,4 @@ footer .ai{flex:1 1 320px;text-align:center;text-transform:none;letter-spacing:.
 #form .fmsg.ok{color:var(--ch2,#cbb48a)}#form .fmsg.err{color:#e08a7a}#form .fmsg a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 #form.sent .f,#form.sent .sub{opacity:.35;pointer-events:none;transition:opacity .4s}
 #sb[disabled]{opacity:.6;cursor:wait}
+#form .fmsg strong{color:var(--ink,#f1ece2);font-weight:500}
