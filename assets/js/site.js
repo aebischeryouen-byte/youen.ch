@@ -385,8 +385,15 @@ let pjInit=false;function initProjects(){if(pjInit)return;pjInit=true;
 $('#lead').textContent=C.lead;$('#lm').href=C.mail;
 $('#form').addEventListener('submit',e=>{e.preventDefault();const f=e.target,v=id=>$('#'+id).value.trim();const bad=['fn','ln2','fe','fc'].find(id=>!v(id))||(!$('#fe').checkValidity()?'fe':null);
  if(bad){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');$('#'+bad).focus();return}
- const subj=`Contact via youen.ch: ${v('fn')} ${v('ln2')}`,body=`${v('fc')}\n\n${v('fn')} ${v('ln2')}\n${v('fe')}${v('fp')?'\n'+v('fp'):''}`;
- location.href=`${C.mail}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;$('#sb').textContent='Opening e-mail app…';setTimeout(()=>$('#sb').textContent='Send message',4000)});
+const W3F_KEY='72dd5003-d74b-4fc3-a6fe-2042b49be8bf';
+ const sb=$('#sb'),m=$('#fmsg'),say=(t,c)=>{m.className='fmsg '+(c||'');m.innerHTML=t};if(sb.disabled)return;
+ if($('#fbot').checked){f.classList.add('sent');say('Thank you, your message has been sent.','ok');return}
+ sb.disabled=true;sb.textContent='Sending…';say('');
+ const data={access_key:W3F_KEY,subject:`Contact via youen.ch: ${v('fn')} ${v('ln2')}`,from_name:'youen.ch',name:`${v('fn')} ${v('ln2')}`,email:v('fe'),phone:v('fp')||'-',message:v('fc'),botcheck:''};
+ fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)})
+  .then(r=>r.json().catch(()=>({})).then(j=>{if(!r.ok||!j.success)throw new Error(j.message||r.status)}))
+  .then(()=>{f.classList.add('sent');sb.textContent='Sent';say(`Thank you, ${v('fn').replace(/[<>&"]/g,'')}. Your message has been sent, I will reply to ${v('fe').replace(/[<>&"]/g,'')}.`,'ok')})
+  .catch(()=>{sb.disabled=false;sb.textContent='Send message';say(`Sending did not work. Please try again later or write to <a href="${C.mail}">mail@youen.ch</a> directly.`,'err')})});
 /* ---------- reveals ---------- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const t=e.target;t.classList.add('in');io.unobserve(t);
  $$('[data-cnt]',t).forEach(n=>{const v=+n.dataset.cnt,t0=performance.now();(function f(tt){const k=Math.min(1,(tt-t0)/1800);n.textContent=Math.round(v*(1-Math.pow(1-k,4)));if(k<1)requestAnimationFrame(f)})(t0)});

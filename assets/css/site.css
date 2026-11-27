@@ -279,3 +279,10 @@ footer .ai{flex:1 1 320px;text-align:center;text-transform:none;letter-spacing:.
 /* links inside facts and timeline */
 .facts dd a,.log p a{color:var(--ch2,#cbb48a);text-decoration:underline;text-underline-offset:2px}
 .facts dd a:hover,.log p a:hover{color:var(--ink,#f1ece2)}
+
+/* contact form via Web3Forms */
+#form .hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+#form .fmsg{grid-column:1/-1;margin:1.2em 0 0;min-height:1.4em;color:var(--mut);line-height:1.6}
+#form .fmsg.ok{color:var(--ch2,#cbb48a)}#form .fmsg.err{color:#e08a7a}#form .fmsg a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+#form.sent .f,#form.sent .sub{opacity:.35;pointer-events:none;transition:opacity .4s}
+#sb[disabled]{opacity:.6;cursor:wait}
