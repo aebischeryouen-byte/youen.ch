@@ -5,7 +5,7 @@ Source of [youen.ch](https://youen.ch), the personal website of Youen Aebischer,
 ## How it works
 
 - Static site on GitHub Pages, no backend and no build step on the server.
-- 3D scenes with [three.js](https://threejs.org), models from his own CAD files.
+- 3D scenes with [three.js](https://threejs.org), models from own CAD files.
 - Visitor count with [GoatCounter](https://www.goatcounter.com), no cookies. Details on the [privacy page](https://youen.ch/privacy.html).
 - The contact form sends messages through [Web3Forms](https://web3forms.com), which forwards them by e-mail. Nothing is stored on the site.
 - Built with help from AI (Claude), see the note on the site.
