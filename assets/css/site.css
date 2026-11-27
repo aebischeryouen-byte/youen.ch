@@ -287,3 +287,7 @@ footer .ai{flex:1 1 320px;text-align:center;text-transform:none;letter-spacing:.
 #form.sent .f,#form.sent .sub{opacity:.35;pointer-events:none;transition:opacity .4s}
 #sb[disabled]{opacity:.6;cursor:wait}
 #form .fmsg strong{color:var(--ink,#f1ece2);font-weight:500}
+
+/* new logo: a bit larger so the fine strokes read */
+.lo .lg{width:44px;height:44px}
+@media (max-width:860px){.lo .lg{width:36px;height:36px}}
